@@ -15,11 +15,31 @@ variable "gcp_project" {
 
 
 variable "gcp_region" {
-    default = "europe-west4"
+    default = "europe-west1"
     description = "The region to use"
 }
 
 variable "gcp_zone" {
-    default = "a"
+    default = "c"
     description = "The availability zone to use"
+}
+
+variable "ssh_user" {
+  default = "ansible"
+  description = "ssh ansible user"
+}
+
+variable "ssh_key" {
+  default = ".ssh/kd-testing"
+  description = "ssh key for login"
+}
+
+variable "bastion_name" {
+    default = "bastion-kd-testing"
+    description = "the bastion name for the pgbackrest setup. the name is set in ssh config auto generated. "
+}
+
+variable "ssh_conf" {
+  default = ".ssh/config.d/kd-testing-bastion.conf"
+  description = "ssh configuration file for the bastion connection"
 }

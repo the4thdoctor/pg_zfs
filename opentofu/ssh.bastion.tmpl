@@ -1,0 +1,9 @@
+
+Host ${bastion_name}
+	HostName ${bastion_ip}
+	User ${ssh_user}
+	ForwardAgent yes
+	Port 22
+	IdentityFile ${ssh_key}
+	UserKnownHostsFile ~/.ssh/kd_testing_known_hosts
+	StrictHostKeyChecking accept-new

@@ -29,6 +29,16 @@ variable "ssh_user" {
   description = "ssh ansible user"
 }
 
+variable "postgresql_node_count" {
+  default = "1"
+  description = "Number of postgresql nodes"
+  }
+
+variable "postgresql_node_prefix" {
+    default = "postgresql-"
+    description = "The node name prefix"
+}
+
 variable "ssh_key" {
   default = ".ssh/kd-testing"
   description = "ssh key for login"
@@ -39,7 +49,12 @@ variable "bastion_name" {
     description = "the bastion name for the pgbackrest setup. the name is set in ssh config auto generated. "
 }
 
-variable "ssh_conf" {
+variable "ssh_bastion_conf" {
   default = ".ssh/config.d/kd-testing-bastion.conf"
   description = "ssh configuration file for the bastion connection"
+}
+
+variable "ssh_nodes_conf" {
+  default = ".ssh/config.d/kd-testing-nodes.conf"
+  description = "ssh configuration file for the database nodes connection"
 }

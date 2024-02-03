@@ -1,0 +1,8 @@
+%{ for node_index in postgresql_nodes ~}
+Host ${postgresql_node_prefix}${node_index}
+	User ${ssh_user}
+	ProxyCommand ssh -W %h:%p ${bastion_name}
+	UserKnownHostsFile /dev/null
+	StrictHostKeyChecking no
+	IdentityFile ${ssh_key}
+%{ endfor ~}

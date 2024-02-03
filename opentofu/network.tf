@@ -43,3 +43,20 @@ resource "google_compute_firewall" "firewall_ssh" {
   target_tags = ["bastion","postgresql"]
 }
 
+resource "google_compute_firewall" "firewall_nodes" {
+  name    = "firewall-nodes"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22","5432"]
+  }
+
+  source_tags = ["bastion"]
+}
+
+

@@ -1,0 +1,11 @@
+
+[hosts:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/kd_testing_known_hosts -o IdentityFile={ssh_key} -o User=${ssh_user}'
+
+[hosts:children]
+postgresql
+[postgresql]
+%{ for index in postgresql_nodes ~}
+${postgresql_node_name[index]}
+%{ endfor ~}

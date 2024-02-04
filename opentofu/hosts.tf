@@ -34,7 +34,9 @@ resource "google_compute_instance" "postgresql_instance" {
       image = "rocky-linux-cloud/rocky-linux-9"
     }
   }
-
+  attached_disk {
+  source = "${google_compute_disk.pg_data_hdd[count.index].name}"
+  }
   network_interface {
     network = google_compute_network.vpc_network.name
 

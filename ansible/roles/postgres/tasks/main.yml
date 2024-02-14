@@ -100,7 +100,7 @@
 
 - name: Enable and start the postgres service
   ansible.builtin.systemd_service:
-    state: enabled
+    state: started
     daemon_reload: true
     enabled: true
     name: "postgresql-{{pg_major}}"

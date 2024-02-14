@@ -1,0 +1,42 @@
+lv_list:
+  data_area:
+    lv_name: lv_pg_data
+    path: "/pg_data"
+    size: "1g"
+    fs_type: "ext4"
+    fs_opt: "noatime,nodiratime"
+    owner: "{{pg_os_user}}"
+    group: "{{pg_os_group}}"
+  log_directory:
+    lv_name: lv_pg_log
+    path: "/pg_log"
+    size: "2g"
+    fs_type: "ext4"
+    fs_opt: "noatime,nodiratime"
+    owner: "{{pg_os_user}}"
+    group: "{{pg_os_group}}"
+  wal_area:
+    lv_name: lv_pg_wal
+    path: "/pg_wal"
+    size: "2g"
+    fs_type: "ext4"
+    fs_opt: "noatime,nodiratime"
+    owner: "{{pg_os_user}}"
+    group: "{{pg_os_group}}"
+  tbs_ext4:
+    lv_name: lv_tbs_ext4
+    path: "/tbs_ext4"
+    size: "2g"
+    fs_type: "ext4"
+    fs_opt: "noatime,nodiratime"
+    owner: "{{pg_os_user}}"
+    group: "{{pg_os_group}}"
+  
+
+pv_devices:
+  - "/dev/sdb"
+
+vg_name: "vg_pgsql"
+
+lvm_packages:
+  - "lvm2"

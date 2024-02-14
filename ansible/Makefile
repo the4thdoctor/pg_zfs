@@ -36,6 +36,9 @@ all: ## Configures the machines applying in sequence all roles
 postgres: ## Deploys the hosts file on the hosts
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_postgres.yml $(extra)
 
+lvmdisk: ## Setup the lvm on the vm
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_lvmdisk.yml $(extra)
+
 create-vault: ## Create a new vault file in gcp/group_vars/all/vault.yml
 	@ansible-vault create ${vault_pwd}  ${vault_all_file}
 

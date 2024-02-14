@@ -5,7 +5,11 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ss
 
 [hosts:children]
 postgresql
+
 [postgresql]
 %{ for index in postgresql_nodes ~}
 ${postgresql_node_name[index]}
 %{ endfor ~}
+
+[lvmdisk:children]
+postgresql

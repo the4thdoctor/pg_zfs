@@ -3,9 +3,21 @@ pg_dnf_gpg_key: "https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG
 pg_home_dir: "/var/lib/pgsql"
 pg_os_user: "postgres"
 pg_os_group: "postgres"
+pg_cluster_name: "test"
 pg_major: "16"
 pg_minor: ""
 pg_packages:
   - "postgresql{{pg_major}}{{pg_minor}}"
   - "postgresql{{pg_major}}-contrib{{pg_minor}}"
   - "postgresql{{pg_major}}-server{{pg_minor}}"
+
+
+cluster_params:
+  port: "5432"
+  shared_buffers: 512MB
+  listen_addresses: "localhost"
+  max_connections: 100
+  work_mem: 20MB
+  maintenance_work_mem: 1GB
+  log_directory: "{{ lv_list.log_directory.path }}/{{pg_major}}/{{pg_cluster_name}}/"
+  log_filename: "postgresql-{{pg_major}}.log"

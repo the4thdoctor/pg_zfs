@@ -1,6 +1,6 @@
 resource "google_compute_instance" "bastion_instance" {
   name         = var.bastion_name
-  machine_type = "f1-micro"
+  machine_type = "e2-micro"
   tags         = ["bastion"]
 
   boot_disk {

@@ -15,3 +15,92 @@
   dnf:
     name: "{{ pg_packages }}"
     state: "present"
+
+- name: Setup the permission and ownership on the mountpoints
+  file:
+    path: "{{ item.value.path }}"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.group }}"
+    state: directory
+    mode: 0700
+  with_dict: "{{ lv_list }}"
+
+- name: Create the database directories for the cluster
+  file:
+    path: "{{ item.value.path }}/{{pg_major}}/{{pg_cluster_name}}/"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.owner }}"
+    state: directory
+    mode: 0700
+  with_dict: "{{ lv_list }}"
+
+- name: Create the files with the postgresql super user password
+  lineinfile:
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    mode: 0600
+    dest:  "{{ pg_home_dir }}/.pg_super_pwd_{{pg_cluster_name}}"
+    line: "{{ pg_super_password }}"
+    create: yes
+
+
+- name: initialising the cluster
+  command: >
+    /usr/pgsql-{{pg_major}}/bin/initdb -k 
+    -D {{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/
+    -X {{ lv_list.wal_area.path }}/{{pg_major}}/{{pg_cluster_name}}/
+    -U {{ pg_os_user }}
+    --auth-local=peer
+    --auth-host=scram-sha-256
+    --auth=scram-sha-256
+    --pwfile={{ pg_home_dir }}/.pg_super_pwd_{{pg_cluster_name}}
+  become: yes
+  become_user: "{{ pg_os_user }}"
+  args:
+    creates: "{{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/PG_VERSION"
+
+- name: Remove the files with the postgresql super user password
+  file:
+    path: "{{ pg_home_dir }}/.pg_super_pwd_{{pg_cluster_name}}"
+    state: absent
+
+- name: Ensure the conf.d directory is present in the configuration folder
+  file:
+    path: "{{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/conf.d"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    mode: 0744
+    state: directory
+
+
+- name: Ship the custom postgresql.conf in conf.d
+  template:
+    src: postgresql.conf.j2
+    dest: "{{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/conf.d/01postgresql.conf"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    mode: 0644
+
+- name: Ensure the overridedirectory for postgresql service exists
+  file:
+    path: "/etc/systemd/system/postgresql-{{pg_major}}.service.d/"
+    owner: "root"
+    group: "root"
+    mode: 0744
+    state: directory
+
+
+- name: Ship the override file
+  template:
+    src: postgresql.service.override.j2
+    dest: "/etc/systemd/system/postgresql-{{pg_major}}.service.d/override.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: Enable and start the postgres service
+  ansible.builtin.systemd_service:
+    state: enabled
+    daemon_reload: true
+    enabled: true
+    name: "postgresql-{{pg_major}}"

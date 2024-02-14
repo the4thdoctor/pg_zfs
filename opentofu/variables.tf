@@ -15,7 +15,7 @@ variable "gcp_project" {
 
 
 variable "gcp_region" {
-    default = "europe-west1"
+    default = "europe-west10"
     description = "The region to use"
 }
 

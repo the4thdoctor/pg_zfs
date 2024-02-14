@@ -1,0 +1,40 @@
+- name: Install the required packages
+  ansible.builtin.dnf:
+    name: "{{ lvm_packages }}"
+    state: latest
+
+- name: Create the mount points
+  file:
+    path: "{{ lv_list[item.key].path }}"
+    state: directory
+  with_dict: "{{ lv_list }}"
+
+- name: Create the volume group using the physical volumes
+  lvg:
+    vg: "{{ vg_name }}"
+    pvs: "{{ pv_devices | join(',') }}"
+
+- name: Create the logical volumes
+  lvol:
+    vg: "{{ vg_name }}"
+    lv: "{{ lv_list[item.key].lv_name }}"
+    size: "{{ lv_list[item.key].size }}"
+    resizefs: yes
+  with_dict: "{{ lv_list }}"
+
+- name: Create the filesystems on the logical volumes
+  filesystem:
+    fstype: "{{ lv_list[item.key].fs_type }}"
+    dev: "/dev/{{ vg_name }}/{{ lv_list[item.key].lv_name }}"
+    opts: "{{ lv_list[item.key].mkfs_opts|default('') }}"
+  with_dict: "{{ lv_list }}"
+
+- name: Set the mount status for the logical volumes
+  mount:
+    path: "{{ lv_list[item.key].path }}"
+    src: "/dev/{{ vg_name }}/{{ lv_list[item.key].lv_name }}"
+    fstype: "{{ lv_list[item.key].fs_type }}"
+    opts: "{{ lv_list[item.key].fs_opt }}"
+    state: mounted
+  with_dict: "{{ lv_list }}"
+

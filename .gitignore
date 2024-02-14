@@ -48,6 +48,9 @@ terraform.rc
 #ignore hosts file
 hosts
 
+#ignore vault.yml
+vault.yml
+
 #ignore json and b64 files
 *.json 
 *.b64

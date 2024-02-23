@@ -12,7 +12,7 @@
 - name: Create the volume group using the physical volumes
   lvg:
     vg: "{{ vg_name }}"
-    pvs: "{{ pv_devices | join(',') }}"
+    pvs: "{{ pg_ext4_hdd }}"
 
 - name: Create the logical volumes
   lvol:

@@ -8,8 +8,9 @@ postgresql
 
 [postgresql]
 %{ for index in postgresql_nodes ~}
-${postgresql_node_name[index]}
+${postgresql_node_name[index]} pg_ext4_hdd='/dev/disk/by-id/google-${pg_ext4_hdd}${index}'
 %{ endfor ~}
 
 [lvmdisk:children]
 postgresql
+

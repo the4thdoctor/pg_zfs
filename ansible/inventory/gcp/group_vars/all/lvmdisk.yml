@@ -33,8 +33,7 @@ lv_list:
     group: "{{pg_os_group}}"
   
 
-pv_devices:
-  - "/dev/sdb"
+
 
 vg_name: "vg_pgsql"
 

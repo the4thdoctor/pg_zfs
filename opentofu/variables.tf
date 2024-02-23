@@ -39,6 +39,12 @@ variable "postgresql_node_prefix" {
     description = "The node name prefix"
 }
 
+
+variable "pg_ext4_hdd" {
+    default = "pg-ext4-hdd-"
+    description = "The prefix for ext4 persistent disks "
+}
+
 variable "ssh_key" {
   default = ".ssh/kd-testing"
   description = "ssh key for login"
@@ -58,3 +64,5 @@ variable "ssh_nodes_conf" {
   default = ".ssh/config.d/kd-testing-nodes.conf"
   description = "ssh configuration file for the database nodes connection"
 }
+
+

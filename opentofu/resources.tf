@@ -41,6 +41,7 @@ resource "local_file" "ansible_inventory" {
      postgresql_nodes = range(var.postgresql_node_count)
      ssh_user = var.ssh_user
      ssh_key = "${var.HOME}/${var.ssh_key}"
+     pg_ext4_hdd = "${var.pg_ext4_hdd}"
     }
   )
   filename = "../ansible/inventory/gcp/hosts"

@@ -37,13 +37,15 @@ resource "google_compute_instance" "postgresql_instance" {
   attached_disk {
   source = "${google_compute_disk.pg_ext4_hdd[count.index].name}"
   device_name = "${google_compute_disk.pg_ext4_hdd[count.index].name}"
+    }
+  attached_disk {
+  source = "${google_compute_disk.pg_zfs_hdd[count.index].name}"
+  device_name = "${google_compute_disk.pg_zfs_hdd[count.index].name}"
   }
-  # attached_disk {
-  # source = "${google_compute_disk.pg_zfs_hdd[count.index].name}"
-  # }
-  #   attached_disk {
-  # source = "${google_compute_disk.pg_zil_ssd[count.index].name}"
-  # }
+    attached_disk {
+  source = "${google_compute_disk.pg_zil_ssd[count.index].name}"
+  device_name = "${google_compute_disk.pg_zil_ssd[count.index].name}"
+  }
   network_interface {
     network = google_compute_network.vpc_network.name
 

@@ -45,6 +45,16 @@ variable "pg_ext4_hdd" {
     description = "The prefix for ext4 persistent disks "
 }
 
+variable "pg_zfs_hdd" {
+    default = "pg-zfs-hdd-"
+    description = "The prefix for zfs persistent disks "
+}
+
+variable "pg_zil_ssd" {
+    default = "pg-zil-ssd-"
+    description = "The prefix for zil persistent disks "
+}
+
 variable "ssh_key" {
   default = ".ssh/kd-testing"
   description = "ssh key for login"

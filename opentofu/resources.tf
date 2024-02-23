@@ -42,6 +42,8 @@ resource "local_file" "ansible_inventory" {
      ssh_user = var.ssh_user
      ssh_key = "${var.HOME}/${var.ssh_key}"
      pg_ext4_hdd = "${var.pg_ext4_hdd}"
+     pg_zfs_hdd = "${var.pg_zfs_hdd}"
+     pg_zil_ssd = "${var.pg_zil_ssd}"
     }
   )
   filename = "../ansible/inventory/gcp/hosts"

@@ -1,0 +1,5 @@
+---
+- hosts: "zfs"
+  become: yes
+  roles:
+    - zfs

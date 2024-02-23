@@ -39,6 +39,10 @@ postgres: ## Deploys the hosts file on the hosts
 lvmdisk: ## Setup the lvm on the vm
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_lvmdisk.yml $(extra)
 
+zfs: ## Setup the lvm on the vm
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_zfs.yml $(extra)
+
+
 create-vault: ## Create a new vault file in gcp/group_vars/all/vault.yml
 	@ansible-vault create ${vault_pwd}  ${vault_all_file}
 

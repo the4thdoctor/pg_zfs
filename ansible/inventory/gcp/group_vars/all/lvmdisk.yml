@@ -33,7 +33,7 @@ lv_list:
     group: "{{pg_os_group}}"
   
 
-
+dev_path_by_id: "/dev/disk/by-id/google-"
 
 vg_name: "vg_pgsql"
 

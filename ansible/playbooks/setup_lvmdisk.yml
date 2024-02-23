@@ -3,17 +3,3 @@
   become: yes
   roles:
     - lvmdisk
-
-# - name: Lets look at some disks
-#   hosts: "lvmdisk"
-#   become: false
-#   gather_facts: false
-#   tasks:
-#   - name: Collect only facts about hardware
-#     setup:
-#       gather_subset:
-#       - hardware
-
-#   - name: Output disks
-#     debug:
-#       var: hostvars[inventory_hostname].ansible_devices

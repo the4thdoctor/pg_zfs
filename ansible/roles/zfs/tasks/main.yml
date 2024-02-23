@@ -1,0 +1,19 @@
+---
+  
+
+- name: add the gpg key to the rpm repository
+  rpm_key:
+    state: present
+    key: "{{zfs_dnf_gpg_key}}"
+
+- name: install the epel release 
+  dnf:
+    name: "epel-release"
+    state: present
+
+
+
+- name: install the zfs repository
+  dnf:
+    name: "{{ zfs_repo_url }}"
+    state: present

@@ -1,0 +1,30 @@
+- name: install zipbins
+  dnf:
+    name: "{{zip_binaries}}"
+    state: present
+
+
+
+
+- name: Download the prometheus exporter
+  ansible.builtin.get_url:
+    url: "{{postgresql_exporter_url}}"
+    dest: "/tmp/"
+
+- name: Unarchive the prometheus exporter for postgresql
+  ansible.builtin.unarchive:
+    src: "/tmp/{{postgresql_exporter_file}}"
+    dest: "{{postgresql_exporter_dir}}/"
+    remote_src: yes
+
+- name: ensure the postgresql exporter dir exists 
+  file:
+    path: "{{postgresql_exporter_dir}}"
+    state: directory
+    mode: 0755
+
+
+
+
+
+

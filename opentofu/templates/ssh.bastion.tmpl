@@ -7,3 +7,11 @@ Host ${bastion_name}
 	IdentityFile ${ssh_key}
 	UserKnownHostsFile ~/.ssh/kd_testing_known_hosts
 	StrictHostKeyChecking accept-new
+
+
+Host ${prometheus_name}
+	User ${ssh_user}
+	ProxyCommand ssh -W %h:%p ${bastion_name}
+	UserKnownHostsFile /dev/null
+	StrictHostKeyChecking no
+	IdentityFile ${ssh_key}

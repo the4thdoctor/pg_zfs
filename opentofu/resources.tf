@@ -13,6 +13,7 @@ resource "local_file" "ssh_bastion_config" {
     {
      bastion_ip = google_compute_instance.bastion_instance.network_interface.0.access_config.0.nat_ip,
      bastion_name = google_compute_instance.bastion_instance.name
+     prometheus_name = google_compute_instance.prometheus_instance.name
      ssh_user = var.ssh_user
      ssh_key = "${var.HOME}/${var.ssh_key}"
     }
@@ -44,6 +45,7 @@ resource "local_file" "ansible_inventory" {
      pg_ext4_hdd = "${var.pg_ext4_hdd}"
      pg_zfs_hdd = "${var.pg_zfs_hdd}"
      pg_zil_ssd = "${var.pg_zil_ssd}"
+     prometheus_name = google_compute_instance.prometheus_instance.name
     }
   )
   filename = "../ansible/inventory/gcp/hosts"

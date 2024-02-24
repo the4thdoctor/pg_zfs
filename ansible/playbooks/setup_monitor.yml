@@ -1,0 +1,10 @@
+---
+# - hosts: "prometheus"
+#   become: yes
+#   roles:
+#     - prometheus
+
+- hosts: "monitor"
+  become: yes
+  roles:
+    - prometheus_exporter

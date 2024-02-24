@@ -40,7 +40,7 @@ resource "google_compute_firewall" "firewall_ssh" {
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags = ["bastion","postgresql"]
+  target_tags = ["bastion","postgresql","prometheus"]
 }
 
 resource "google_compute_firewall" "firewall_nodes" {
@@ -57,6 +57,22 @@ resource "google_compute_firewall" "firewall_nodes" {
   }
 
   source_tags = ["bastion"]
+}
+
+resource "google_compute_firewall" "firewall_prometheus" {
+  name    = "firewall-prometheus"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9100","9187"]
+  }
+  source_tags = ["prometheus"]
+  target_tags = ["postgresql"]
 }
 
 

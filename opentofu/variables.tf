@@ -65,6 +65,12 @@ variable "bastion_name" {
     description = "the bastion name for the pgbackrest setup. the name is set in ssh config auto generated. "
 }
 
+variable "prometheus_name" {
+    default = "prometheus-kd-testing"
+    description = "the bastion name for the pgbackrest setup. the name is set in ssh config auto generated. "
+}
+
+
 variable "ssh_bastion_conf" {
   default = ".ssh/config.d/kd-testing-bastion.conf"
   description = "ssh configuration file for the bastion connection"

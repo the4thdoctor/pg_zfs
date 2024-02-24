@@ -20,6 +20,27 @@ resource "google_compute_instance" "bastion_instance" {
  }
 }
 
+resource "google_compute_instance" "prometheus_instance" {
+  name         = var.prometheus_name
+  machine_type = "e2-small"
+  tags         = ["prometheus"]
+
+  boot_disk {
+    initialize_params {
+      image = "rocky-linux-cloud/rocky-linux-9"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+    }
+  }
+
+  metadata = {
+   ssh-keys = "${var.ssh_user}:${file("${var.HOME}/${var.ssh_key}.pub")}"
+ }
+}
 
 resource "google_compute_instance" "postgresql_instance" {
   name         = "${var.postgresql_node_prefix}${count.index}"

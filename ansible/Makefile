@@ -33,8 +33,11 @@ ping-hosts: ## Ping the hosts
 all: ## Configures the machines applying in sequence all roles
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_all.yml $(extra)
 
-postgres: ## Deploys the hosts file on the hosts
+postgres: ## Setup postgresql
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_postgres.yml $(extra)
+
+monitor: ## Setup prometheus and monitoring
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_monitor.yml $(extra)
 
 lvmdisk: ## Setup the lvm on the vm
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_lvmdisk.yml $(extra)

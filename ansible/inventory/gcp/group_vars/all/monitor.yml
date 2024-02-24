@@ -1,0 +1,20 @@
+---
+prom_packages:
+  - golang-github-prometheus
+  - grafana
+
+prom_exporters:
+  - golang-github-prometheus-node-exporter
+  - golang-github-prometheus-procfs-devel
+
+postgresql_exporter_version: "0.15.0"
+postgresql_exporter_file: "postgres_exporter-{{postgresql_exporter_version}}.linux-amd64.tar.gz"
+
+zfs_exporter: "https://github.com/pdf/zfs_exporter/releases/download/v2.3.2/zfs_exporter-2.3.2.linux-amd64.tar.gz"
+postgresql_exporter_url: "https://github.com/prometheus-community/postgres_exporter/releases/download/v{{postgresql_exporter_version}}/{{postgresql_exporter_file}}"
+
+postgresql_exporter_dir: "/opt/postgres_exporter"
+
+zip_binaries:
+  - "bzip2"
+  - "zstd"

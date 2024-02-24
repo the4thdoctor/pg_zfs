@@ -1,0 +1,6 @@
+zfs_repo_url: "https://zfsonlinux.org/epel/zfs-release-2-2.el9.noarch.rpm"
+
+zfs_dnf_gpg_key: "https://raw.githubusercontent.com/zfsonlinux/zfsonlinux.github.com/master/zfs-release/RPM-GPG-KEY-openzfs-key2"
+
+zfs_required_pkg:
+  - epel-release

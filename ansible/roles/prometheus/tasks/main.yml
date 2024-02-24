@@ -1,0 +1,29 @@
+---
+## PACKAGE INSTALL
+- name: install the epel-release
+  dnf:
+    name: "epel-release"
+    state: present
+
+- name: install the prometheus packages
+  dnf:
+    name: "{{ prom_packages }}"
+    state: present
+
+- name: deploy the prometheus configuration file
+  template:
+    src: prometheus.yml.j2
+    dest: "/etc/prometheus/prometheus.yml"
+  register: prmconf
+
+- name: Start the prometheus service
+  service:
+    name: prometheus
+    state: started
+
+- name: Reload the prometheus service
+  service:
+    name: prometheus
+    state: reloaded
+  when: prmconf.changed
+

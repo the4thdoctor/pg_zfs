@@ -5,6 +5,7 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ss
 
 [hosts:children]
 postgresql
+prometheus
 
 [postgresql]
 %{ for index in postgresql_nodes ~}
@@ -15,4 +16,10 @@ ${postgresql_node_name[index]} pg_ext4_hdd='${pg_ext4_hdd}${index}' pg_zfs_hdd='
 postgresql
 
 [zfs:children]
+postgresql
+
+[prometheus]
+${prometheus_name}
+
+[monitor:children]
 postgresql

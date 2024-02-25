@@ -1,0 +1,37 @@
+
+
+- name: Download the zfs exporter
+  ansible.builtin.get_url:
+    url: "{{zfs_exporter_url}}"
+    dest: "/tmp/"
+
+- name: Unarchive the prometheus exporter for zfs
+  ansible.builtin.unarchive:
+    src: "/tmp/{{zfs_exporter_file}}"
+    dest: "/opt/"
+    remote_src: yes
+
+
+- name: ensure the zfs exporter link exists 
+  file:
+    src: "{{zfs_exporter_dir}}"
+    dest: "{{zfs_exporter_link}}"
+    state: link
+    mode: 0755
+
+
+- name: deploy the zfs exporter service
+  template:
+    src: zfs_exporter.service.j2
+    dest: "/etc/systemd/system/zfs_exporter.service"
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+
+- name: Enable and start the zfs exporter service
+  ansible.builtin.systemd_service:
+    state: started
+    daemon_reload: true
+    enabled: true
+    name: "zfs_exporter"

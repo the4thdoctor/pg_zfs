@@ -35,3 +35,6 @@ scrape_configs:
 {%for host in groups['postgresql']%}
       - '{{host}}:9187'
 {%endfor%}
+{%for host in groups['zfs']%}
+      - '{{host}}:9134'
+{%endfor%}

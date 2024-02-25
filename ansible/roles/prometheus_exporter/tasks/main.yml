@@ -3,6 +3,11 @@
     name: "epel-release"
     state: present
 
+- name: install zipbins
+  dnf:
+    name: "{{zip_binaries}}"
+    state: present
+
 - name: install the built in exporters
   dnf:
     name: "{{prom_exporters}}"
@@ -19,4 +24,8 @@
 - name: install and configure the postgres exporter
   include_tasks: "postgres_exporter.yml"
   when: ansible_hostname in groups['postgresql']
+
+- name: install and configure the postgres exporter
+  include_tasks: "zfs_exporter.yml"
+  when: ansible_hostname in groups['zfs']
 

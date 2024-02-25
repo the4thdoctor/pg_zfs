@@ -1,0 +1,16 @@
+[Unit]
+Description=zfs_exporter - Exporter for zfs machine metrics.
+Documentation=https://github.com/pdf/zfs_exporter
+After=network.target
+
+[Service]
+User=root
+Group=root
+
+ExecStart=/opt/zfs_exporter/zfs_exporter $FLAGS
+
+SyslogIdentifier=zfs_exporter
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

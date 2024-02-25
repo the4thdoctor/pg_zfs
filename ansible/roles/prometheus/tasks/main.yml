@@ -27,3 +27,7 @@
     state: reloaded
   when: prmconf.changed
 
+- name: Start the grafana service
+  service:
+    name: grafana-server
+    state: started

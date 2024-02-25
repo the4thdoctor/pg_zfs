@@ -69,7 +69,7 @@ resource "google_compute_firewall" "firewall_prometheus" {
 
   allow {
     protocol = "tcp"
-    ports    = ["9100","9187"]
+    ports    = ["9100","9187","9134"]
   }
   source_tags = ["prometheus"]
   target_tags = ["postgresql"]

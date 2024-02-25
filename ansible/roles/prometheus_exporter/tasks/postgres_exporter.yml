@@ -1,7 +1,3 @@
-- name: install zipbins
-  dnf:
-    name: "{{zip_binaries}}"
-    state: present
 
 - name: Download the prometheus exporter
   ansible.builtin.get_url:

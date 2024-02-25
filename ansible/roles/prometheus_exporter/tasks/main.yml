@@ -8,7 +8,14 @@
     name: "{{prom_exporters}}"
     state: present
 
+- name: Enable and start the postgres service
+  ansible.builtin.systemd_service:
+    state: started
+    daemon_reload: true
+    enabled: true
+    name: "prometheus-node-exporter"
   
+
 - name: install and configure the postgres exporter
   include_tasks: "postgres_exporter.yml"
   when: ansible_hostname in groups['postgresql']

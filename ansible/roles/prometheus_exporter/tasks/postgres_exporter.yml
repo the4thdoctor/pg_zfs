@@ -3,9 +3,6 @@
     name: "{{zip_binaries}}"
     state: present
 
-
-
-
 - name: Download the prometheus exporter
   ansible.builtin.get_url:
     url: "{{postgresql_exporter_url}}"
@@ -14,17 +11,37 @@
 - name: Unarchive the prometheus exporter for postgresql
   ansible.builtin.unarchive:
     src: "/tmp/{{postgresql_exporter_file}}"
-    dest: "{{postgresql_exporter_dir}}/"
+    dest: "/opt/"
     remote_src: yes
 
-- name: ensure the postgresql exporter dir exists 
+
+- name: ensure the postgresql exporter link exists 
   file:
-    path: "{{postgresql_exporter_dir}}"
-    state: directory
+    src: "{{postgresql_exporter_dir}}"
+    dest: "{{postgresql_exporter_link}}"
+    state: link
     mode: 0755
 
 
+- name: deploy the pgsql exporter service
+  template:
+    src: postgresql_exporter.service.j2
+    dest: "/etc/systemd/system/postgresql_exporter.service"
+    owner: "root"
+    group: "root"
+    mode: 0755
 
+- name: deploy the pgsql exporter service
+  template:
+    src: postgres_exporter.env.j2
+    dest: "/etc/default/postgres_exporter"
+    owner: "{{pg_os_user}}"
+    group: "{{pg_os_group}}"
+    mode: 0600
 
-
-
+- name: Enable and start the postgres service
+  ansible.builtin.systemd_service:
+    state: started
+    daemon_reload: true
+    enabled: true
+    name: "postgresql_exporter"

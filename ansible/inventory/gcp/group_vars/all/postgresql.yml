@@ -21,3 +21,6 @@ cluster_params:
   maintenance_work_mem: 1GB
   log_directory: "{{ lv_list.log_directory.path }}/{{pg_major}}/{{pg_cluster_name}}/"
   log_filename: "postgresql-{{pg_major}}.log"
+  log_connections: "on"
+  log_disconnections: "on"
+  log_checkpoints: "on"

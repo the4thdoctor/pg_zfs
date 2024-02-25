@@ -30,8 +30,8 @@ help:
 ping-hosts: ## Ping the hosts
 	@ansible ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff -m ping hosts $(extra)
 
-all: ## Configures the machines applying in sequence all roles
-	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_all.yml $(extra)
+all: lvmdisk zfs postgres monitor ## Configures the machines applying in sequence all roles
+	
 
 postgres: ## Setup postgresql
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_postgres.yml $(extra)

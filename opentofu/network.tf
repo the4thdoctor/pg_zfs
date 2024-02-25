@@ -76,3 +76,8 @@ resource "google_compute_firewall" "firewall_prometheus" {
 }
 
 
+resource "google_compute_address" "default_standard" {
+  name          = "standard-address"
+  region        = var.gcp_region
+  network_tier  = "STANDARD"
+}

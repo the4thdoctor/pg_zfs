@@ -72,6 +72,11 @@
     mode: 0744
     state: directory
 
+- name: Ensure the postgresql.conf contains the directory conf.d
+  ansible.builtin.lineinfile:
+    path: "{{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/postgresql.conf"
+    line: "include_dir = 'conf.d'"
+  
 
 - name: Ship the custom postgresql.conf in conf.d
   template:
@@ -104,3 +109,15 @@
     daemon_reload: true
     enabled: true
     name: "postgresql-{{pg_major}}"
+
+
+- name: populate the pgpass file 
+  blockinfile:
+    dest: "{{ pg_home_dir }}/.pgpass"
+    create: yes
+    state: present
+    owner: "{{ pg_os_user }}"
+    mode: 0600
+    block: |
+     localhost:{{ cluster_params.port }}:*:{{ pg_os_user }}:{{ pg_super_password }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK SUPER USER FOR cluster main:{{ cluster_params.port  }}"

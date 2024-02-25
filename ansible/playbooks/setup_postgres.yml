@@ -2,6 +2,5 @@
 - hosts: "postgresql"
   become: yes
   roles:
-    - lvmdisk
-    - zfs
     - postgres
+    

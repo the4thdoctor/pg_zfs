@@ -1,6 +1,6 @@
 resource "google_compute_instance" "bastion_instance" {
   name         = var.bastion_name
-  machine_type = "e2-micro"
+  machine_type = "f1-micro"
   tags         = ["bastion"]
 
   boot_disk {
@@ -12,6 +12,8 @@ resource "google_compute_instance" "bastion_instance" {
   network_interface {
     network = google_compute_network.vpc_network.name
     access_config {
+      nat_ip = google_compute_address.default_standard.address
+      network_tier = "STANDARD"
     }
   }
 
@@ -33,8 +35,7 @@ resource "google_compute_instance" "prometheus_instance" {
 
   network_interface {
     network = google_compute_network.vpc_network.name
-    access_config {
-    }
+
   }
 
   metadata = {

@@ -13,7 +13,8 @@ postgresql_exporter_file: "postgres_exporter-{{postgresql_exporter_version}}.lin
 zfs_exporter: "https://github.com/pdf/zfs_exporter/releases/download/v2.3.2/zfs_exporter-2.3.2.linux-amd64.tar.gz"
 postgresql_exporter_url: "https://github.com/prometheus-community/postgres_exporter/releases/download/v{{postgresql_exporter_version}}/{{postgresql_exporter_file}}"
 
-postgresql_exporter_dir: "/opt/postgres_exporter"
+postgresql_exporter_link: "/opt/postgres_exporter"
+postgresql_exporter_dir: "postgres_exporter-{{postgresql_exporter_version}}.linux-amd64"
 
 zip_binaries:
   - "bzip2"

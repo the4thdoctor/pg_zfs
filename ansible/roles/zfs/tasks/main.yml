@@ -46,9 +46,14 @@
   command: "zpool create {{item.key}} {{item.value.device}}"
   when: not ansible_zfs_pools
   with_dict: "{{zfs_pools}}"
+  
 
 - name: configure the zfs datasets
   command: "zfs create -o mountpoint={{item.value.mountpoint}} {{item.value.pool}}/{{item.key}}"
   with_dict: "{{zfs_datasets}}"
-  ignore_errors: yes
+  when: not ansible_zfs_pools
 
+- name: Print gathered information
+  ansible.builtin.debug:
+    msg: 'ZFS pool {{ item.name }} '
+  with_items: '{{ ansible_zfs_pools }}'

@@ -121,3 +121,40 @@
     block: |
      localhost:{{ cluster_params.port }}:*:{{ pg_os_user }}:{{ pg_super_password }}
     marker: "# {mark} ANSIBLE MANAGED BLOCK SUPER USER FOR cluster main:{{ cluster_params.port  }}"
+
+
+- name: Setup the permission and ownership on the tablespaces
+  file:
+    path: "{{ item.value }}"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    state: directory
+    mode: 0700
+  with_dict: "{{ pg_tablespaces }}"
+
+- name: Create the database directories for the cluster
+  file:
+    path: "{{ item.value }}/{{pg_major}}/{{pg_cluster_name}}/"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    state: directory
+    mode: 0700
+  with_dict: "{{ pg_tablespaces }}"
+
+- name: Create the tablespaces
+  community.postgresql.postgresql_tablespace:
+    name: "{{ item.key }}"
+    owner: "{{ pg_os_user }}"
+    location: "{{ item.value }}/{{pg_major}}/{{pg_cluster_name}}"
+  with_dict: "{{ pg_tablespaces }}"
+  become: yes
+  become_user: "{{ pg_os_user }}"
+
+
+- name: Create the databases with their default tablespace already set
+  community.postgresql.postgresql_db:
+    name: "{{ item.key }}"
+    tablespace: "{{ item.value }}"
+  with_dict: "{{ pg_databases }}"
+  become: yes
+  become_user: "{{ pg_os_user }}"

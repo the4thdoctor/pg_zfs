@@ -10,6 +10,7 @@ pg_packages:
   - "postgresql{{pg_major}}{{pg_minor}}"
   - "postgresql{{pg_major}}-contrib{{pg_minor}}"
   - "postgresql{{pg_major}}-server{{pg_minor}}"
+  - "python3-psycopg2"
 
 
 cluster_params:
@@ -24,3 +25,12 @@ cluster_params:
   log_connections: "on"
   log_disconnections: "on"
   log_checkpoints: "on"
+
+pg_tablespaces: #tablespace mount points
+  tbs_ext4: "/tbs_ext4"
+  tbs_zfs: "/tbs_zfs"
+
+
+pg_databases: #databases with the default tablespace
+  db_ext4: "tbs_ext4"
+  db_zfs: "tbs_zfs"

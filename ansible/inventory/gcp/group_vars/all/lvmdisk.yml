@@ -26,7 +26,7 @@ lv_list:
   tbs_ext4:
     lv_name: lv_tbs_ext4
     path: "/tbs_ext4"
-    size: "2g"
+    size: "11g"
     fs_type: "ext4"
     fs_opt: "noatime,nodiratime"
     owner: "{{pg_os_user}}"

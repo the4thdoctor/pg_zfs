@@ -1,0 +1,2 @@
+#/usr/pgsql-16/bin/pgbench db_ext4 -c 2 -j 2 -T 60
+#/usr/pgsql-16/bin/pgbench db_zfs -c 2 -j 2 -T 60

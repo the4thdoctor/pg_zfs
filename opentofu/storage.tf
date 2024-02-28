@@ -8,7 +8,7 @@ resource "google_compute_disk" "pg_ext4_hdd" {
 }
 
 resource "google_compute_disk" "pg_zfs_hdd" {
-  name  = "pg-zfs-hdd${count.index}"
+  name  = "${var.pg_zfs_hdd}${count.index}"
   count = var.postgresql_node_count
   type  = "pd-standard"
   zone  = "${var.gcp_region}-${var.gcp_zone}"
@@ -17,7 +17,7 @@ resource "google_compute_disk" "pg_zfs_hdd" {
 }
 
 resource "google_compute_disk" "pg_zil_ssd" {
-  name  = "pg-zil-ssd${count.index}"
+  name  = "${var.pg_zil_ssd}${count.index}"
   count = var.postgresql_node_count
   type  = "pd-ssd"
   zone  = "${var.gcp_region}-${var.gcp_zone}"

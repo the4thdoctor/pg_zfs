@@ -35,7 +35,7 @@ variable "postgresql_node_count" {
   }
 
 variable "postgresql_node_prefix" {
-    default = "postgresql-"
+    default = "postgresql-kd-testing"
     description = "The node name prefix"
 }
 

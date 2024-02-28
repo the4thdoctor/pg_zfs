@@ -4,3 +4,15 @@ zfs_dnf_gpg_key: "https://raw.githubusercontent.com/zfsonlinux/zfsonlinux.github
 
 zfs_required_pkg:
   - epel-release
+
+dev_path_by_id: "/dev/disk/by-id/google-"
+
+zfs_pools:
+  pg_pool:
+    device: "{{dev_path_by_id}}{{pg_zfs_hdd}}"
+
+
+zfs_datasets:
+  tbs_zfs: 
+    pool: pg_pool
+    mountpoint: /tbs_zfs

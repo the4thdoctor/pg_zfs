@@ -30,7 +30,10 @@ help:
 ping-hosts: ## Ping the hosts
 	@ansible ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff -m ping hosts $(extra)
 
-all: lvmdisk zfs sysctl postgres monitor ## Configures the machines applying in sequence all roles
+all: ext4 zfs sysctl postgres monitor ## Configures the machines applying in sequence all roles
+
+run-tests: ## Setup sysctl
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/run_tests.yml $(extra)
 	
 sysctl: ## Setup sysctl
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_sysctl.yml $(extra)
@@ -41,8 +44,8 @@ postgres: ## Setup postgresql
 monitor: ## Setup prometheus and monitoring
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_monitor.yml $(extra)
 
-lvmdisk: ## Setup the lvm on the vm
-	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_lvmdisk.yml $(extra)
+ext4: ## Setup the lvm on the vm
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_ext4.yml $(extra)
 
 zfs: ## Setup the lvm on the vm
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_zfs.yml $(extra)

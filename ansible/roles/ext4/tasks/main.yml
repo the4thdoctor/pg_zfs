@@ -12,7 +12,7 @@
 - name: Create the volume group using the physical volumes
   lvg:
     vg: "{{ vg_name }}"
-    pvs: "{{ dev_path_by_id }}{{ pg_ext4_hdd }}"
+    pvs: "{{ dev_path_by_id }}{{ pg_data_hdd }}"
 
 - name: Create the logical volumes
   lvol:
@@ -37,4 +37,26 @@
     opts: "{{ lv_list[item.key].fs_opt }}"
     state: mounted
   with_dict: "{{ lv_list }}"
+
+- name: Create a new ext4 primary partition
+  community.general.parted:
+    device: "{{ dev_path_by_id }}{{ pg_ext4_hdd }}"
+    number: 1
+    state: present
+    fs_type: "{{ tbs_ext4.fs_type }}"
+
+
+- name: Create the filesystems on the ext4 partition
+  filesystem:
+    fstype: "{{ tbs_ext4.fs_type }}"
+    dev: "{{ dev_path_by_id }}{{ pg_ext4_hdd }}-part1"
+
+- name: Set the mount status for the logical volumes
+  mount:
+    path: "{{tbs_ext4.path}}"
+    src: "{{ dev_path_by_id }}{{ pg_ext4_hdd }}-part1"
+    fstype: "{{ tbs_ext4.fs_type }}"
+    opts: "{{ tbs_ext4.fs_opt }}"
+    state: mounted
+
 

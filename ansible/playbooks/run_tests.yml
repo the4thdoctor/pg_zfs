@@ -1,2 +1,32 @@
+
+#/usr/pgsql-16/bin/pgbench --initialize -s 100 db_ext4 
+#/usr/pgsql-16/bin/pgbench db_zfs --initialize -s 100
+
 #/usr/pgsql-16/bin/pgbench db_ext4 -c 2 -j 2 -T 60
 #/usr/pgsql-16/bin/pgbench db_zfs -c 2 -j 2 -T 60
+
+
+- hosts: "postgresql"
+  become: yes
+  become_user: "{{ pg_os_user }}"
+  tasks:
+    - name: Initialise the ext4 pgbench
+      command: /usr/pgsql-16/bin/pgbench --initialize -s {{pgbench.scale_factor}} db_ext4 
+      # async: "{{async_run}}"
+      # poll: 10
+      register: ext4_init
+
+    - name: copy the output to a local file
+      copy:
+        content: "{{ ext4_init.stderr }}"
+        dest: "/tmp/ext4_init.txt"
+      delegate_to: localhost
+      become: no
+    
+    - name: Initialise the zfs pgbench
+      command: /usr/pgsql-16/bin/pgbench --initialize -s {{pgbench.scale_factor}} db_zfs 
+      async: "{{async_run}}"
+      poll: 10
+    
+
+

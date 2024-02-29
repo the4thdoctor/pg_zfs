@@ -1,0 +1,9 @@
+pgbench:
+  scale_factor: 10
+  jobs: 2
+  concurrent: 2
+  seconds: 60
+
+async_run: 3600
+  
+

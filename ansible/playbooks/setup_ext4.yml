@@ -2,4 +2,4 @@
 - hosts: "lvmdisk"
   become: yes
   roles:
-    - lvmdisk
+    - ext4

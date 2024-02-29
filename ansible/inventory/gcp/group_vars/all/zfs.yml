@@ -10,9 +10,26 @@ dev_path_by_id: "/dev/disk/by-id/google-"
 zfs_pools:
   pg_pool:
     device: "{{dev_path_by_id}}{{pg_zfs_hdd}}"
+    zil: "{{dev_path_by_id}}{{pg_zil_ssd}}"
 
 
 zfs_datasets:
   tbs_zfs: 
     pool: pg_pool
     mountpoint: /tbs_zfs
+    options:
+      # ashift: "12"
+      # logbias: "latency"
+      # compression: "lz4"
+      # atime: "off"
+      # primarycache: all
+      # recordsize: "16k"
+      
+
+# zfs_module_options:
+#   zfs_prefetch_disable: "1"
+#   zfs_nocacheflush: "1"
+#   zfs_arc_max: "7073741824"
+#   zfs_arc_min: "7073741824"
+#   txg_timeout: "1"
+

@@ -18,19 +18,12 @@ lv_list:
   wal_area:
     lv_name: lv_pg_wal
     path: "/pg_wal"
-    size: "2g"
+    size: "7g"
     fs_type: "ext4"
     fs_opt: "noatime,nodiratime"
     owner: "{{pg_os_user}}"
     group: "{{pg_os_group}}"
-  tbs_ext4:
-    lv_name: lv_tbs_ext4
-    path: "/tbs_ext4"
-    size: "11g"
-    fs_type: "ext4"
-    fs_opt: "noatime,nodiratime"
-    owner: "{{pg_os_user}}"
-    group: "{{pg_os_group}}"
+
   
 
 dev_path_by_id: "/dev/disk/by-id/google-"
@@ -39,3 +32,10 @@ vg_name: "vg_pgsql"
 
 lvm_packages:
   - "lvm2"
+
+tbs_ext4:
+  path: "/tbs_ext4"
+  fs_type: "ext4"
+  fs_opt: "noatime,nodiratime,barrier=0,data=writeback,nobh"
+  owner: "{{pg_os_user}}"
+  group: "{{pg_os_group}}"

@@ -49,6 +49,10 @@ variable "pg_zfs_hdd" {
     default = "pg-zfs-hdd-"
     description = "The prefix for zfs persistent disks "
 }
+variable "pg_data_hdd" {
+    default = "pg-data-hdd-"
+    description = "The prefix for the pgdata persistent disks "
+}
 
 variable "pg_zil_ssd" {
     default = "pg-zil-ssd-"

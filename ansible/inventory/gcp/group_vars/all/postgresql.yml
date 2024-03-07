@@ -15,10 +15,10 @@ pg_packages:
 
 cluster_params:
   port: "5432"
-  shared_buffers: 512MB
+  shared_buffers: 1GB
   listen_addresses: "localhost"
   max_connections: 100
-  work_mem: 20MB
+  work_mem: 400MB
   maintenance_work_mem: 1GB
   log_directory: "{{ lv_list.log_directory.path }}/{{pg_major}}/{{pg_cluster_name}}/"
   log_filename: "postgresql-{{pg_major}}.log"

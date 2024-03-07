@@ -45,6 +45,7 @@ resource "local_file" "ansible_inventory" {
      pg_ext4_hdd = "${var.pg_ext4_hdd}"
      pg_zfs_hdd = "${var.pg_zfs_hdd}"
      pg_zil_ssd = "${var.pg_zil_ssd}"
+     pg_data_hdd = "${var.pg_data_hdd}"
      prometheus_name = google_compute_instance.prometheus_instance.name
     }
   )

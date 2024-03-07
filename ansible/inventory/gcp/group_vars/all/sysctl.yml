@@ -3,4 +3,5 @@ sysctl_conf:
   vm.dirty_background_ratio: "5"
   vm.dirty_ratio: "99"
   vm.overcommit_memory: "2"
+  vm.swappiness: "0"
 

@@ -36,6 +36,7 @@ lvm_packages:
 tbs_ext4:
   path: "/tbs_ext4"
   fs_type: "ext4"
-  fs_opt: "noatime,nodiratime,barrier=0,data=writeback,nobh"
+  #fs_opt: "defaults"
+  fs_opt: "defaults,noatime,nodiratime,barrier=0,data=writeback,nobh"
   owner: "{{pg_os_user}}"
   group: "{{pg_os_group}}"

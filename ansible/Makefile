@@ -32,8 +32,15 @@ ping-hosts: ## Ping the hosts
 
 all: ext4 zfs sysctl postgres monitor ## Configures the machines applying in sequence all roles
 
-run-tests: ## Setup sysctl
-	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/run_tests.yml $(extra)
+reconfigure: ## run tests on ext4
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/reconfigure_system.yml $(extra)
+	
+
+run-ext4-test: ## run tests on ext4
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/run_ext4_test.yml $(extra)
+	
+run-zfs-test: ## run tests on zfs
+	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/run_zfs_test.yml $(extra)
 	
 sysctl: ## Setup sysctl
 	@ansible-playbook ${vault_pwd} -u ${ansible_user} -i inventory/gcp/hosts --diff playbooks/setup_sysctl.yml $(extra)

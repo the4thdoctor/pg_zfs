@@ -9,7 +9,7 @@ prometheus
 
 [postgresql]
 %{ for index in postgresql_nodes ~}
-${postgresql_node_name[index]} pg_ext4_hdd='${pg_ext4_hdd}${index}' pg_zfs_hdd='${pg_zfs_hdd}${index}' pg_zil_ssd='${pg_zil_ssd}${index}'
+${postgresql_node_name[index]} pg_data_hdd='${pg_data_hdd}${index}' pg_ext4_hdd='${pg_ext4_hdd}${index}' pg_zfs_hdd='${pg_zfs_hdd}${index}' pg_zil_ssd='${pg_zil_ssd}${index}'
 %{ endfor ~}
 
 [lvmdisk:children]

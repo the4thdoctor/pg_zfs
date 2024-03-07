@@ -1,0 +1,29 @@
+- hosts: "postgresql"
+  become: yes
+  become_user: "{{ pg_os_user }}"
+  tasks:
+    - name: Initialise the pgbench for zfs
+      command: "/usr/pgsql-{{pg_major}}/bin/pgbench --initialize -s {{pgbench.scale_factor}} db_zfs "
+      async: "{{async_run}}"
+      poll: "{{async_poll}}"
+      register: zfs_init
+
+    - name: copy the output to a local file
+      copy:
+        content: "{{ zfs_init.stderr }} {{ zfs_init.stdout }}"
+        dest: "/tmp/zfs_init.txt"
+      delegate_to: localhost
+      become: no
+
+    - name: Run pgbench for zfs 
+      command: "/usr/pgsql-{{pg_major}}/bin/pgbench db_zfs -c {{pgbench.concurrent}} -j {{pgbench.jobs}} -T {{pgbench.seconds}}"
+      async: "{{async_run}}"
+      poll: "{{async_poll}}"
+      register: zfs_run
+    
+    - name: copy the zfs run output to a local file
+      copy:
+        content: "{{ zfs_run.stderr }} {{ zfs_run.stdout }}"
+        dest: "/tmp/zfs_run.txt"
+      delegate_to: localhost
+      become: no

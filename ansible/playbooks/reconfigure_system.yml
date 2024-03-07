@@ -1,0 +1,33 @@
+- hosts: "postgresql"
+  become: yes
+  tasks:
+  - name: Stop postgres service
+    ansible.builtin.systemd_service:
+      state: stopped
+      daemon_reload: true
+      enabled: true
+      name: "postgresql-{{pg_major}}"
+  - name: Ship the custom postgresql.conf in conf.d
+    template:
+      src: postgresql.conf.j2
+      dest: "{{ lv_list.data_area.path }}/{{pg_major}}/{{pg_cluster_name}}/conf.d/01postgresql.conf"
+      owner: "{{ pg_os_user }}"
+      group: "{{ pg_os_group }}"
+      mode: 0644
+  - name: Unmount the ext4 tablespace
+    mount:
+      path: "{{tbs_ext4.path}}"
+      state: unmounted
+  - name: Mount the ext4 tablespace
+    mount:
+      path: "{{tbs_ext4.path}}"
+      src: "{{ dev_path_by_id }}{{ pg_ext4_hdd }}-part1"
+      fstype: "{{ tbs_ext4.fs_type }}"
+      opts: "{{ tbs_ext4.fs_opt }}"
+      state: mounted
+  - name: Start postgres service
+    ansible.builtin.systemd_service:
+      state: started
+      daemon_reload: true
+      enabled: true
+      name: "postgresql-{{pg_major}}"

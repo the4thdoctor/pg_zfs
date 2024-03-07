@@ -1,6 +1,6 @@
 resource "google_compute_instance" "bastion_instance" {
   name         = var.bastion_name
-  machine_type = "f1-micro"
+  machine_type = "e2-small"
   tags         = ["bastion"]
 
   boot_disk {
@@ -45,7 +45,8 @@ resource "google_compute_instance" "prometheus_instance" {
 
 resource "google_compute_instance" "postgresql_instance" {
   name         = "${var.postgresql_node_prefix}${count.index}"
-  machine_type = "e2-small"
+  machine_type = "e2-highmem-8"
+  #machine_type = "e2-small"
   tags         = ["postgresql"]
   count = var.postgresql_node_count
     labels = { 
@@ -64,10 +65,15 @@ resource "google_compute_instance" "postgresql_instance" {
   source = "${google_compute_disk.pg_zfs_hdd[count.index].name}"
   device_name = "${google_compute_disk.pg_zfs_hdd[count.index].name}"
   }
-    attached_disk {
+  attached_disk {
   source = "${google_compute_disk.pg_zil_ssd[count.index].name}"
   device_name = "${google_compute_disk.pg_zil_ssd[count.index].name}"
   }
+  attached_disk {
+  source = "${google_compute_disk.pg_data_hdd[count.index].name}"
+  device_name = "${google_compute_disk.pg_data_hdd[count.index].name}"
+  }
+  
   network_interface {
     network = google_compute_network.vpc_network.name
 
